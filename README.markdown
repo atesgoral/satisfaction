@@ -4,19 +4,18 @@ Multiple asynchronous callback synchronization for JavaScript
 
 Copyright (c) 2011 Ates Goral
 
-MIT or BSD license. It's really just a single function. You're free to do
-whatever you want with it.
+MIT or BSD license.
 
 What
 ----
-Treading a similar territory to Promises/Futures, Satisfaction allows you to
-synchronize the outcome of multiple asychronous callback, and execute a function
-only when all callbacks are called. It handles the record keeping for you. The
-return results of the asynchronous callbacks become arguments (in the original
-order in which they were intercepted) for your ultimate callback.
+Treading a similar territory with Promises/Futures, Satisfaction allows you to
+synchronize the outcome of multiple asychronous callbacks, and to execute a
+function only when all callbacks are called. It handles the record keeping for
+you. The return results of the asynchronous callbacks become arguments (in the
+original order in which the callbacks were intercepted) for the ultimate
+callback.
 
-Satisfaction is optimistic. It doesn't attempt to handle failures: it's still
-your job to do that.
+Satisfaction is optimistic. By design, it doesn't aim to handle failures.
 
 The Problem
 -----------
