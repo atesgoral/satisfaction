@@ -1,0 +1,221 @@
+<script src="satisfaction.js"></script>
+<script>
+if (!window.console || !console.log) {
+    alert("Please enable your console.");
+}
+
+function assert(cond) {
+    if (!cond) {
+        throw "Assertion failure";
+    }
+}
+
+var tests = {
+    callback_called: function () {
+        var called;
+        
+        var satisfaction = new Satisfaction(function () {});
+        
+        var callback = satisfaction.from(function () {
+            called = true;
+        });
+        
+        callback();
+
+        assert(called);
+    },
+
+    callback_called_with_original_arguments: function () {
+        var called_args;
+        
+        var satisfaction = new Satisfaction(function () {});
+        
+        var callback = satisfaction.from(function () {
+            called_args = Array.prototype.slice.call(arguments);
+        });
+
+        var args = [ 1, "A" ];
+        callback.apply(null, args);
+
+        assert(called_args.toString() === args.toString());
+    },
+
+    callback_called_with_original_scope: function () {
+        var called_scope;
+        
+        var satisfaction = new Satisfaction(function () {});
+        
+        var callback = satisfaction.from(function () {
+            called_scope = this;
+        });
+
+        var scope = {};
+        callback.call(scope);
+
+        assert(called_scope === scope);
+    },
+
+    correct_callbacks_called: function () {
+        var called1, called2;
+        
+        var satisfaction = new Satisfaction(function () {});
+        
+        var callback1 = satisfaction.from(function () {
+            called1 = true;
+        });
+
+        var callback2 = satisfaction.from(function () {
+            called2 = true;
+        });
+        
+        callback1();
+        assert(called1);
+
+        callback2();
+        assert(called2);
+    },
+
+    no_callbacks: function () {
+        var satisfied;
+        
+        var satisfaction = new Satisfaction(function () {
+            satisfied = true;
+        });
+
+        satisfaction.guarantee();
+        
+        assert(satisfied);
+    },
+
+    callback_before: function () {
+        var satisfied;
+        
+        var satisfaction = new Satisfaction(function () {
+            satisfied = true;
+        });
+        
+        var callback = satisfaction.from(function () {});
+        
+        callback();
+        
+        satisfaction.guarantee();
+        
+        assert(satisfied);
+    },
+
+    callback_after: function () {
+        var satisfied;
+        
+        var satisfaction = new Satisfaction(function () {
+            satisfied = true;
+        });
+        
+        var callback = satisfaction.from(function () {});
+       
+        satisfaction.guarantee();
+
+        callback();
+        
+        assert(satisfied);
+    },
+    
+    callback_before_before: function () {
+        var satisfied;
+        
+        var satisfaction = new Satisfaction(function () {
+            satisfied = true;
+        });
+        
+        var callback1 = satisfaction.from(function () {});
+        var callback2 = satisfaction.from(function () {});
+        
+        callback1();
+        callback2();
+
+        satisfaction.guarantee();
+
+        assert(satisfied);
+    },
+
+    callback_before_after: function () {
+        var satisfied;
+        
+        var satisfaction = new Satisfaction(function () {
+            satisfied = true;
+        });
+        
+        var callback1 = satisfaction.from(function () {});
+        var callback2 = satisfaction.from(function () {});
+        
+        callback1();
+
+        satisfaction.guarantee();
+
+        callback2();
+
+        assert(satisfied);
+    },
+
+    callback_after_after: function () {
+        var satisfied;
+        
+        var satisfaction = new Satisfaction(function () {
+            satisfied = true;
+        });
+        
+        var callback1 = satisfaction.from(function () {});
+        var callback2 = satisfaction.from(function () {});
+        
+        satisfaction.guarantee();
+
+        callback1();
+        callback2();
+
+        assert(satisfied);
+    },
+
+    satisfaction_scope: function () {
+        var satisfaction_scope;
+
+        var scope = {};
+        var satisfaction = new Satisfaction(function () {
+            satisfaction_scope = this;
+        }, scope);
+       
+        satisfaction.guarantee();
+        
+        assert(satisfaction_scope === scope);
+    },
+    
+    satisfaction_arguments: function () {
+        var satisfaction_args;
+
+        var satisfaction = new Satisfaction(function () {
+            satisfaction_args = Array.prototype.slice.call(arguments);
+        });
+        
+        var args = [ 1, "A" ];
+        var callback1 = satisfaction.from(function () { return args[0]; });
+        var callback2 = satisfaction.from(function () { return args[1]; });
+        
+        callback1();
+        callback2();
+
+        satisfaction.guarantee();
+
+        assert(satisfaction_args.toString() == args.toString());
+    }
+};
+
+for (var testName in tests) {
+    console.log("Running " + testName);
+
+    try {
+        tests[testName]();
+    } catch (e) {
+        console.log("FAILED " + e);
+    }
+}
+
+console.log("DONE");
+</script> 

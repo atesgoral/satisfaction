@@ -1,0 +1,54 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<script src="satisfaction.js"></script>
+<script>
+if (!window.console || !console.log) {
+    alert("Please enable your console.");
+}
+
+// Needs to be called only after:
+// 1. All JSONP results are returned
+// 2. The DOM is ready
+function mashupTweets(byJohn, byRyan) {
+    var aggregated = byJohn.concat(byRyan);
+
+    $.each(aggregated, function (idx, tweet) {
+        $("<li>" + tweet.text + "</li>").appendTo($("#tweets"));
+    });
+}
+
+// Define how we'll celebrate our satisfaction
+// -- it's by displaying an awesome Twitter mashup of course!
+var satisfaction = new Satisfaction(mashupTweets);
+
+// Tag each ordinary callback as a satisfaction source by simply wrapping them
+// with Satisfaction.from()
+
+// Get John's tweets
+$.getJSON(
+    "http://twitter.com/status/user_timeline/jeresig.json?count=2&callback=?",
+    satisfaction.from(function (tweets) {
+        console.log("Got latest 2 tweets by John");
+        return tweets;
+    }));
+
+// Get Ryan's tweets
+$.getJSON(
+    "http://twitter.com/status/user_timeline/ryah.json?count=2&callback=?",
+    satisfaction.from(function (tweets) {
+        console.log("Got latest 2 tweets by Ryan");
+        return tweets;
+    }));
+
+// Wait for DOM ready
+// But let's do it 3 seconds from now just for the hell of it!
+setTimeout(satisfaction.from(function () {
+    console.log("3 seconds elapsed, setting DOM ready handler");
+    $(function () {
+        console.log("DOM ready");
+    });
+}), 3000);
+
+// We're done setting expectations. Now let's wait to get satisfaction.
+satisfaction.guarantee();
+</script>
+<ul id="tweets"></ul>
