@@ -16,9 +16,10 @@
     var queued = 0,
         met = 0,
         results = [],
-        wanting = false;
+        wanting;
 
     function guarantee() {
+        results.push.apply(results, wanting.args);
         queued == met && satisfy.apply(scope, results);
     }
     
@@ -26,10 +27,10 @@
      * Set an expectation by intercepting a callback
      * @param callback The callback function we're intercepting
      */
-    this.from = function (callback) {
+    this.from = function (callback, scope) {
         return (function (satisfaction, idx) {
             return function () {
-                results[idx] = callback.apply(this, arguments);
+                results[idx] = callback.apply(scope || this, arguments);
                 met++;
                 wanting && guarantee();
             }
@@ -40,7 +41,7 @@
      * Call when you're done setting expectations
      */     
     this.guarantee = function () {
-        wanting = true;
+        wanting = { args: arguments };
         guarantee();
     };
 }

@@ -55,6 +55,22 @@ var tests = {
         assert(called_scope === scope);
     },
 
+    from_scope: function () {
+        var called_scope;
+        
+        var satisfaction = new Satisfaction(function () {});
+        
+        var scope1 = {}, scope2 = {};
+        
+        var callback = satisfaction.from(function () {
+            called_scope = this;
+        }, scope1);
+
+        callback.call(scope2);
+
+        assert(called_scope === scope1);
+    },
+    
     correct_callbacks_called: function () {
         var called1, called2;
         
@@ -202,6 +218,23 @@ var tests = {
         callback2();
 
         satisfaction.guarantee();
+
+        assert(satisfaction_args.toString() == args.toString());
+    },
+    
+    guarantee_additional_arguments: function () {
+        var satisfaction_args;
+
+        var satisfaction = new Satisfaction(function () {
+            satisfaction_args = Array.prototype.slice.call(arguments);
+        });
+        
+        var args = [ 1, "A", true ];
+        var callback = satisfaction.from(function () { return args[0]; });
+        
+        callback();
+
+        satisfaction.guarantee(args[1], args[2]);
 
         assert(satisfaction_args.toString() == args.toString());
     }
