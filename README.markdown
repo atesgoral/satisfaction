@@ -92,15 +92,15 @@ collected results. Here's a more satisfactory rendition of the scenario above:
 
     satisfaction.guarantee();
 
-See [sample_satisfaction.html][3] for a more fanciful example with verbose
-comments. [sample_naive.html][4] demonstrates the more naive approach of waiting
+See [samples/satisfaction.html][3] for a more fanciful example with verbose
+comments. [samples/naive.html][4] demonstrates the more naive approach of waiting
 for one asynchronous operation before firing the next. The Satisfaction approach
 in these samples is roughly **3 times faster** than the naive approach, simply
 because it can handle the 3 operations in parallel.
 
-There's also a [Tutorial][1]. See the [API documentation][2] for all the nasty details.
+There's also a [Tutorial][1]. See the [API documentation][2] for all the details.
 
 [1]: https://github.com/atesgoral/satisfaction/wiki/Tutorial
 [2]: https://github.com/atesgoral/satisfaction/wiki/API
-[3]: https://github.com/atesgoral/satisfaction/blob/master/sample_satisfaction.html
-[4]: https://github.com/atesgoral/satisfaction/blob/master/sample_naive.html
+[3]: https://github.com/atesgoral/satisfaction/blob/master/samples/satisfaction.html
+[4]: https://github.com/atesgoral/satisfaction/blob/master/samples/naive.html
