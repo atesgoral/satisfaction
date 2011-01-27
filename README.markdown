@@ -58,7 +58,14 @@ only done when all results are received. Imagine doing this for not 2 but 3, 4,
 get out of hand.
 
 One obvious solution to this problem is to pipeline the asynchronous operations,
-by forsaking the ability to run them in parallel.
+forsaking the ability to run them in parallel:
+
+    startAsyncOperation1(function (result1) {
+        // have to wait for operation 1 to complete first
+        startAsyncOperation2(function (result2) {
+            processResults(result1, result2);
+        });
+    });
 
 The Solution
 ------------
