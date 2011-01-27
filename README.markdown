@@ -6,7 +6,7 @@ Copyright (c) 2011 Ates Goral
 
 MIT or BSD license.
 
-Skip to the [Tutorial][3] or [API documentation][4].
+Skip to the [Tutorial][1] or [API documentation][2].
 
 What
 ----
