@@ -1,17 +1,21 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 <script src="satisfaction.js"></script>
 <script>
-var log = window.console ? window.console.log : function () {};
+var start = new Date(),
+    log = window.console ? window.console.log : function () {};
 
 // Needs to be called only after:
 // 1. All JSONP results are returned
 // 2. The DOM is ready
-function mashupTweets(byJohn, byRyan) {
-    var aggregated = byJohn.concat(byRyan);
+function mashupTweets(byJohn, byRyan, byJames) {
+    var aggregated = byJohn.concat(byRyan).concat(byJames);
 
     $.each(aggregated, function (idx, tweet) {
         $("<li>" + tweet.text + "</li>").appendTo($("#tweets"));
     });
+
+    var elapsed = new Date() - start;
+    log("Elapsed: " + elapsed);
 }
 
 // Define how we'll celebrate our satisfaction
@@ -37,6 +41,14 @@ $.getJSON(
         return tweets;
     }));
 
+// Get James's tweets
+$.getJSON(
+    "http://twitter.com/status/user_timeline/jrburke.json?count=3&callback=?",
+    satisfaction.from(function (tweets) {
+        log("Got latest 3 tweets by James");
+        return tweets;
+    }));
+    
 // Wait for DOM ready
 $(satisfaction.from(function () {
     log("DOM ready");
@@ -47,4 +59,5 @@ $(satisfaction.from(function () {
 // We're done setting expectations. Now let's wait to get satisfaction.
 satisfaction.guarantee();
 </script>
+<h1>A more satisfactory handling of asynchronous events</h1>
 <ul id="tweets"></ul>

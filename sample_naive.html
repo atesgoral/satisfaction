@@ -1,0 +1,46 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<script src="satisfaction.js"></script>
+<script>
+var start = new Date(),
+    log = window.console ? window.console.log : function () {};
+
+// Needs to be called only after:
+// 1. All JSONP results are returned
+// 2. The DOM is ready
+function mashupTweets(byJohn, byRyan, byJames) {
+    var aggregated = byJohn.concat(byRyan).concat(byJames);
+
+    $.each(aggregated, function (idx, tweet) {
+        $("<li>" + tweet.text + "</li>").appendTo($("#tweets"));
+    });
+
+    var elapsed = new Date() - start;
+    log("Elapsed: " + elapsed);
+}
+
+// Wait for DOM ready
+$(function () {
+    log("DOM ready");
+    // Get John's tweets
+    $.getJSON(
+        "http://twitter.com/status/user_timeline/jeresig.json?count=3&callback=?",
+        function (byJohn) {
+            log("Got latest 3 tweets by John");
+            // Get Ryan's tweets
+            $.getJSON(
+                "http://twitter.com/status/user_timeline/ryah.json?count=3&callback=?",
+                function (byRyan) {
+                    log("Got latest 3 tweets by Ryan");
+                    // Get James's tweets
+                    $.getJSON(
+                        "http://twitter.com/status/user_timeline/rjburke.json?count=3&callback=?",
+                        function (byJames) {
+                            log("Got latest 3 tweets by James");
+                            mashupTweets(byJohn, byRyan, byJames);
+                        });
+                });
+        });
+});
+</script>
+<h1>Naive (chained) handling of asynchronous events</h1>
+<ul id="tweets"></ul>
