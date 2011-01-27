@@ -11,10 +11,11 @@ Skip to the [Tutorial][2] or [API documentation][3].
 What
 ----
 Treading a similar territory with Promises/Futures, Satisfaction allows you to
-synchronize the outcome of multiple asychronous callbacks, and to execute a
-function only when all callbacks are called. It handles the record keeping for
-you. The return results of the asynchronous callbacks become arguments (in the
-original order in which the callbacks were intercepted) for the ultimate
+wait for the outcome of multiple asychronous operations (that may be run in
+**parallel**) and to execute a callback when all of them are complete.
+
+The return results of the callbacks to asynchronous operations become arguments
+(in the original order in which the callbacks are intercepted) for the ultimate
 callback.
 
 Satisfaction is optimistic. By design, it doesn't aim to handle failures.
