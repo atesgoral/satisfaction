@@ -1,7 +1,7 @@
 <script src="satisfaction.js"></script>
 <script>
-if (!window.console || !console.log) {
-    alert("Please enable your console.");
+function log(s) {
+    document.getElementById("out").innerHTML += "<div>" + s + "</div>";
 }
 
 function assert(cond) {
@@ -237,18 +237,37 @@ var tests = {
         satisfaction.guarantee(args[1], args[2]);
 
         assert(satisfaction_args.toString() == args.toString());
+    },
+    
+    empty_from: function () {
+        var satisfied;
+        
+        var satisfaction = new Satisfaction(function () {
+            satisfied = true;
+        });
+        
+        var callback = satisfaction.from();
+        
+        callback();
+
+        satisfaction.guarantee();
+
+        assert(satisfied);
     }
 };
 
-for (var testName in tests) {
-    console.log("Running " + testName);
+window.onload = function () {
+    for (var testName in tests) {
+        log("Running " + testName);
 
-    try {
-        tests[testName]();
-    } catch (e) {
-        console.log("FAILED " + e);
+        try {
+            tests[testName]();
+        } catch (e) {
+            log("FAILED " + e);
+        }
     }
-}
 
-console.log("DONE");
+    log("DONE");
+};
 </script> 
+<div id="out"></div>
