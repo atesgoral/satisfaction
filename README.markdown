@@ -6,6 +6,8 @@ Copyright (c) 2011 Ates Goral
 
 MIT or BSD license.
 
+Skip to the [Tutorial][2] or [API documentation][3].
+
 What
 ----
 Treading a similar territory with Promises/Futures, Satisfaction allows you to
@@ -23,7 +25,6 @@ Suppose you're firing two (or more) asynchronous operations with callbacks which
 may get called in any order and you want to run some code when all callbacks
 are called.
 
-```javascript
     var result1, result2;
 
     startAsyncOperation1(function (result) {
@@ -49,7 +50,6 @@ are called.
     function processResults() {
         // do something with result1 and result2
     }
-```
 
 We have redundant and repetitive checks to ensure that the result processing is
 only done when all results are received. Imagine doing this for not 2 but 3, 4,
@@ -66,7 +66,6 @@ method names) to let you wait on multiple asynchronous operations (that run
 in parallel) and finally execute a function that processes all of their
 collected results. Here's a more satisfactory rendition of the scenario above:
 
-```javascript
     var satisfaction = new Satisfaction(function (result1, result2) {
         // do something with result1 and result2
     });
@@ -82,7 +81,6 @@ collected results. Here's a more satisfactory rendition of the scenario above:
     }));
 
     satisfaction.guarantee();
-```
 
 See [sample.html][1] for a more fanciful example with verbose comments. There's also a [Tutorial][2]. See the [API documentation][3] for all the nasty details.
 
