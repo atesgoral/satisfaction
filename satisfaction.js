@@ -7,26 +7,16 @@
  *
  * MIT or BSD license. Does something this short even need a license?
  */
- 
- /**
-  * @param satisfy Callback to call when all async expectations are satisfied
-  * @param scope The optional callback scope
-  */
- function Satisfaction(satisfy, scope) {
+function Satisfaction(satisfy, scope) {
     var queued = 0,
         met = 0,
         results = [],
         wanting;
 
     function guarantee() {
-        results.push.apply(results, wanting.args);
-        queued == met && satisfy.apply(scope, results);
+        queued == met && satisfy.apply(scope, results.concat(wanting.args));
     }
     
-    /**
-     * Set an expectation by intercepting a callback
-     * @param callback The callback function we're intercepting
-     */
     this.from = function (callback, scope) {
         return (function (satisfaction, idx) {
             return function () {
@@ -39,11 +29,8 @@
         })(this, queued++);
     };
     
-    /**
-     * Call when you're done setting expectations
-     */     
     this.guarantee = function () {
-        wanting = { args: arguments };
+        wanting = { args: Array.prototype.slice.call(arguments) };
         guarantee();
     };
 }
