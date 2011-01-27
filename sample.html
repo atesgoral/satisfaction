@@ -1,9 +1,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 <script src="satisfaction.js"></script>
 <script>
-if (!window.console || !console.log) {
-    alert("Please enable your console.");
-}
+var log = window.console ? window.console.log : function () {};
 
 // Needs to be called only after:
 // 1. All JSONP results are returned
@@ -25,28 +23,26 @@ var satisfaction = new Satisfaction(mashupTweets);
 
 // Get John's tweets
 $.getJSON(
-    "http://twitter.com/status/user_timeline/jeresig.json?count=2&callback=?",
+    "http://twitter.com/status/user_timeline/jeresig.json?count=3&callback=?",
     satisfaction.from(function (tweets) {
-        console.log("Got latest 2 tweets by John");
+        log("Got latest 3 tweets by John");
         return tweets;
     }));
 
 // Get Ryan's tweets
 $.getJSON(
-    "http://twitter.com/status/user_timeline/ryah.json?count=2&callback=?",
+    "http://twitter.com/status/user_timeline/ryah.json?count=3&callback=?",
     satisfaction.from(function (tweets) {
-        console.log("Got latest 2 tweets by Ryan");
+        log("Got latest 3 tweets by Ryan");
         return tweets;
     }));
 
 // Wait for DOM ready
-// But let's do it 3 seconds from now just for the hell of it!
-setTimeout(satisfaction.from(function () {
-    console.log("3 seconds elapsed, setting DOM ready handler");
-    $(function () {
-        console.log("DOM ready");
-    });
-}), 3000);
+$(satisfaction.from(function () {
+    log("DOM ready");
+}));
+// Could have been written simply as:
+// $(satisfaction.from());
 
 // We're done setting expectations. Now let's wait to get satisfaction.
 satisfaction.guarantee();
