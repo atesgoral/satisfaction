@@ -6,13 +6,15 @@ Copyright (c) 2011 Ates Goral
 
 MIT or BSD license.
 
-Skip to the [Tutorial][2] or [API documentation][3].
+Skip to the [Tutorial][3] or [API documentation][4].
 
 What
 ----
 Treading a similar territory with Promises/Futures, Satisfaction allows you to
 wait for the outcome of multiple asychronous operations (that may be run in
-**parallel**) and to execute a callback when all of them are complete.
+**parallel**) and to execute a callback when all of them are complete. Because
+Satisfaction allows the asynchronous operations to be carried out in parallel,
+it is **n-fold faster** than chaining n asynchronous operations.
 
 The return results of the callbacks to asynchronous operations become arguments
 (in the original order in which the callbacks are intercepted) for the ultimate
@@ -90,8 +92,15 @@ collected results. Here's a more satisfactory rendition of the scenario above:
 
     satisfaction.guarantee();
 
-See [sample.html][1] for a more fanciful example with verbose comments. There's also a [Tutorial][2]. See the [API documentation][3] for all the nasty details.
+See [sample_satisfaction.html][3] for a more fanciful example with verbose
+comments. [sample_naive.html][4] demonstrates the more naive approach of waiting
+for one asynchronous operation before firing the next. The Satisfaction approach
+in these samples is roughly **3 times faster** than the naive approach, simply
+because it can handle the 3 operations in parallel.
 
-[1]: https://github.com/atesgoral/satisfaction/blob/master/sample.html
-[2]: https://github.com/atesgoral/satisfaction/wiki/Tutorial
-[3]: https://github.com/atesgoral/satisfaction/wiki/API
+There's also a [Tutorial][1]. See the [API documentation][2] for all the nasty details.
+
+[1]: https://github.com/atesgoral/satisfaction/wiki/Tutorial
+[2]: https://github.com/atesgoral/satisfaction/wiki/API
+[3]: https://github.com/atesgoral/satisfaction/blob/master/sample_satisfaction.html
+[4]: https://github.com/atesgoral/satisfaction/blob/master/sample_naive.html
