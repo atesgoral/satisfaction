@@ -20,12 +20,10 @@ function Satisfaction(satisfy, scope) {
     this.from = function (callback, scope) {
         return (function (satisfaction, idx) {
             return function () {
-                if (callback) {
-                    results[idx] = callback.apply(scope || this, arguments);
-                }
+                results[idx] = callback && callback.apply(scope || this, arguments);
                 met++;
                 wanting && guarantee();
-            }
+            };
         })(this, queued++);
     };
     
