@@ -38,7 +38,7 @@ $(function () {
                     log("Got latest 3 tweets by Ryan");
                     // Get James's tweets
                     $.getJSON(
-                        "http://twitter.com/status/user_timeline/rjburke.json?count=3&callback=?",
+                        "http://twitter.com/status/user_timeline/jrburke.json?count=3&callback=?",
                         function (byJames) {
                             log("Got latest 3 tweets by James");
                             mashupTweets(byJohn, byRyan, byJames);
