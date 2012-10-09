@@ -1,7 +1,7 @@
 <table>
 <tr><th>Notice</th></tr>
 <tr><td>
-Satisfaction is long obsolete. Very shortly after I published this public repo, the jQuery team announced (http://blog.jquery.com/2011/01/31/jquery-15-released/) support for Deferreds, immediately making Satisfaction obsolete.
+Satisfaction is long obsolete. Very shortly after its inception, the jQuery team announced (http://blog.jquery.com/2011/01/31/jquery-15-released/) support for Deferreds, immediately making Satisfaction obsolete.
 I completely switched to using jQuery's Deferreds thereafter...
 </td></tr>
 </table>
